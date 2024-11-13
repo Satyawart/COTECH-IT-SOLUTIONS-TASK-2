@@ -1,0 +1,60 @@
+const { useState } = React;
+
+function RecipeApp() {
+    const [recipes, setRecipes] = useState([]);
+    const [title, setTitle] = useState('');
+    const [details, setDetails] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newRecipe = { title, details };
+        setRecipes([...recipes, newRecipe]);
+        setTitle('');
+        setDetails('');
+    };
+
+    return (
+        <div className="container">
+            <header>
+                <h1>Recipe Sharing Platform</h1>
+            </header>
+            <main>
+                <section className="recipe-list">
+                    <h2>Recipes</h2>
+                    {recipes.length > 0 ? (
+                        recipes.map((recipe, index) => (
+                            <div key={index} className="recipe">
+                                <h3>{recipe.title}</h3>
+                                <p>{recipe.details}</p>
+                                <button>View Recipe</button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No recipes yet!</p>
+                    )}
+                </section>
+                <section className="add-recipe">
+                    <h2>Add a New Recipe</h2>
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Recipe Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
+                        />
+                        <textarea
+                            placeholder="Recipe Details"
+                            value={details}
+                            onChange={(e) => setDetails(e.target.value)}
+                            required
+                        ></textarea>
+                        <button type="submit">Submit</button>
+                    </form>
+                </section>
+            </main>
+        </div>
+    );
+}
+
+ReactDOM.render(<RecipeApp />, document.getElementById('root'));
